@@ -48,7 +48,7 @@ public class AlunosResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alunos() {
         
-        List alunos = alunoFacade.buscarTodosAlunos();
+        List<Aluno> alunos = alunoFacade.buscarTodosAlunos();
         GenericEntity<List<Aluno>> alunosResponse;
         alunosResponse = new GenericEntity<List<Aluno>>(alunos) {
         };
