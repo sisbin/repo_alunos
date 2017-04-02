@@ -1,0 +1,8 @@
+br/com/serverappalunos/ws/ApplicationConfig.class
+br/com/serverappalunos/vo/Aluno.class
+br/com/serverappalunos/ws/AlunosResource.class
+br/com/serverappalunos/dao/AlunoDAO.class
+br/com/serverappalunos/facade/AlunoFacade.class
+br/com/serverappalunos/vo/Endereco.class
+br/com/serverappalunos/dao/ConnectionFactory.class
+br/com/serverappalunos/ws/AlunosResource$1.class
