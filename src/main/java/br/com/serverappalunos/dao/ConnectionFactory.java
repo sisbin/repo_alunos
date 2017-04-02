@@ -7,30 +7,58 @@ package br.com.serverappalunos.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Paulo
  */
 public class ConnectionFactory {
-    public static Connection getConnection() {
-		try {
-			Class.forName("org.postgresql.Driver");
-			Connection con = DriverManager.getConnection(
-					"jdbc:postgresql://ec2-176-34-186-178.eu-west-1.compute.amazonaws.com:5432/dvmd3ng1ph7ic",
-                                "mvlztzhdumrrcu", "103fb9f7b6905a7bbb7e5a4ffdf4b6fdeca2bfc7827c44b3b5547df3f0136aa7");
-			return con;
-		} catch (Exception ex) {
-			System.out.println("Database.getConnection() Error -->"+ ex.getMessage());
-			return null;
-		}
-	}
+	
+	static DataSource datasource;
+    final static Logger logger = Logger.getLogger(ConnectionFactory.class);
 
-	public static void close(Connection con) {
+    /**Retorna uma connection JNDI
+     * @throws SQLException */
+	public static Connection getConnection() throws SQLException{
+		
+		String DATASOURCE_CONTEXT = "java:comp/env/jdbc/serverappalunos";
+		Connection conn = null;
 		try {
-			con.close();
-		} catch (Exception ex) {
+			Context initialContext = new InitialContext();
+			
+			datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+			if (datasource != null) {
+				conn = datasource.getConnection();
+			} else {
+				logger.error("lookup do datasource FALHOW");
+			}
+
+		} catch (NamingException ex) {
+			logger.error("Nao consigo pegar uma conexao: " + ex);
 		}
+
+		return conn;
+	}	
+	
+	/**
+	 * Fecha a conexao passada via parametro
+	 * @param conn - A Connection a ser fechada.
+	 * @throws SQLException 
+	 */
+	public static void closeConnection(Connection conn){ 		
+		try{				
+			conn.close();
+		}catch (Exception e){			
+			logger.error(e.getMessage());
+		}		
 	}
 }
     

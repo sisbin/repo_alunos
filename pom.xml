@@ -12,6 +12,13 @@
 		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
   </properties>
   <dependencies>
+  	<!-- LOG4J -->
+  	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.16</version>
+	</dependency>
+	
 	<!-- JAX-RS -->
     <dependency>
     	<groupId>javax.ws.rs</groupId>
